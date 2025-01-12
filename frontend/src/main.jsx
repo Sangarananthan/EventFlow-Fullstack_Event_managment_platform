@@ -13,11 +13,13 @@ import Profile from "./pages/user/Profile.jsx";
 import AdminRoute from "./pages/admin/AdminRoute.jsx";
 import { Login, Register } from "./pages/auth/Authenticate.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
+import Home from "./Home.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route index={true} path="/" element={<Home />} />
 
       {/* Registered users */}
       <Route path="" element={<PrivateRoute />}>

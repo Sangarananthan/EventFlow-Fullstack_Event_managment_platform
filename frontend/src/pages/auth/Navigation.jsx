@@ -1,83 +1,202 @@
 import React from "react";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
-  Calendar,
-  Settings,
-  Users,
-  PieChart,
-  Ticket,
-  BookMarked,
   Home,
+  ShoppingBag,
+  ShoppingCart,
+  Heart,
+  LogIn,
+  UserPlus,
+  Layout,
+  Package,
+  ClipboardList,
+  Users,
+  Menu,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../../components/ui/navigation-menu";
+import AppLogo from "../../assets/Applogo";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../../components/ui/dropdown-menu";
+import { Button } from "../../components/ui/button";
+import { Avatar, AvatarFallback } from "../../components/ui/avatar";
+import { Badge } from "../../components/ui/badge";
+import { useLogoutMutation } from "../../redux/api/userApiSlice";
+import { logout as logoutAction } from "../../redux/features/auth/authSlice";
+const Navigation = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
 
-const DashboardLayout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const logoutHandler = async () => {
+    try {
+      await logout();
+      dispatch(logoutAction());
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  const menuItems = [
-    { icon: Home, label: "Overview", path: "/dashboard" },
-    { icon: Calendar, label: "My Events", path: "/dashboard/events" },
-    { icon: Ticket, label: "Attending", path: "/dashboard/attending" },
-    { icon: BookMarked, label: "Saved", path: "/dashboard/saved" },
-    { icon: PieChart, label: "Analytics", path: "/dashboard/analytics" },
-    { icon: Users, label: "Attendees", path: "/dashboard/attendees" },
-    { icon: Settings, label: "Settings", path: "/dashboard/settings" },
-  ];
+  const NavLink = ({ to, icon: Icon, label, onClick, badge }) => (
+    <Link
+      to={to}
+      className="flex items-center gap-2 p-2 rounded-md  transition-colors"
+      onClick={onClick}
+    >
+      {Icon && <Icon className="w-5 h-5" />}
+
+      <span>{label}</span>
+      {badge && <Badge variant="secondary">{badge}</Badge>}
+    </Link>
+  );
+
+  const MobileNav = () => (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="lg:hidden">
+          <Menu className="w-5 h-5" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="top" className="w-full">
+        <nav className="flex flex-col gap-4 pt-6">
+          <NavLink to="/" icon={Home} label="Home" />
+          <NavLink to="/shop" icon={ShoppingBag} label="Shop" />
+          <NavLink to="/cart" icon={ShoppingCart} label="Cart" />
+          <NavLink to="/favorite" icon={Heart} label="Favorites" />
+          {!userInfo && (
+            <>
+              <NavLink to="/login" icon={LogIn} label="Login" />
+              <NavLink to="/register" icon={UserPlus} label="Register" />
+            </>
+          )}
+        </nav>
+      </SheetContent>
+    </Sheet>
+  );
+
+  const DesktopNav = () => (
+    <NavigationMenu className="hidden lg:flex ">
+      <NavigationMenuList>
+        <NavigationMenuItem className="hover:text-[#7A56D6] ">
+          <NavLink to="/" label="Home" />
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hover:text-[#7A56D6] ">
+          <NavLink to="/explore" label="Explore" />
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hover:text-[#7A56D6] ">
+          <NavLink to="/myevents" label="My Events" />
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hover:text-[#7A56D6] ">
+          <NavLink to="/saved" label="Saved" />
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hover:bg-[#7A56D6]  bg-[#7A56D6] rounded-lg font-bold px-[1rem]">
+          <NavLink to="/createevent" label="Create event" />
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+  const UserMenu = () => {
+    if (!userInfo) return null;
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8 text-black font-bold">
+              <AvatarFallback>
+                {userInfo.username[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuItem asChild>
+            <Link to="/profile">Profile</Link>
+          </DropdownMenuItem>
+          {userInfo.isAdmin && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/admin/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/admin/productlist">Products</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/admin/categorylist">Categories</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/admin/orderlist">Orders</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/admin/userlist">Users</Link>
+              </DropdownMenuItem>
+            </>
+          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={logoutHandler} className="text-red-600">
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div
-        className={`${
-          isSidebarOpen ? "w-64" : "w-20"
-        } bg-white shadow-lg transition-all duration-300`}
-      >
-        <div className="p-4 flex justify-between items-center">
-          <h1 className={`font-bold text-xl ${!isSidebarOpen && "hidden"}`}>
-            EventPro
-          </h1>
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 rounded-lg hover:bg-gray-100"
-          >
-            {isSidebarOpen ? "←" : "→"}
-          </button>
+    <header className="fixed top-0 z-50 w-full  bg-black backdrop-blur supports-[backdrop-filter]:bg-black md:px-[6rem] md:py-[.8rem] text-white px-[1rem]">
+      <div className="container flex h-14 items-center">
+        <div className="ml-auto md:w-auto md:flex-none">
+          <MobileNav />
         </div>
-
-        <nav className="mt-8">
-          {menuItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.path}
-              className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700"
-            >
-              <item.icon className="w-6 h-6" />
-              {isSidebarOpen && <span className="ml-4">{item.label}</span>}
-            </a>
-          ))}
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <header className="bg-white shadow-sm">
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-800">
-                Dashboard
-              </h2>
-              <div className="flex items-center space-x-4">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                  Create Event
-                </button>
-              </div>
+        <Link
+          to="/"
+          className="mr-6 flex items-center space-x-2 ml-[1rem] lg:ml-0"
+        >
+          <div className="flex flex-row gap-1 justify-center items-center">
+            <AppLogo />
+            <div className="flex flex-col">
+              <div className="text-white text-xl font-bold">EventFlow</div>
+              <p className="text-gray-400 text-xs ">Manage Events</p>
             </div>
           </div>
-        </header>
-
-        <main className="p-6">{children}</main>
+        </Link>
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <div className="mr-4 hidden md:flex">
+            <DesktopNav />
+          </div>
+        </div>
+        {/* Adjusted MobileNav */}
+        {userInfo ? (
+          <UserMenu />
+        ) : (
+          <div className="hidden lg:flex items-center gap-2">
+            <Button variant="ghost" asChild>
+              <Link to="/login" className="bg-white text-black">
+                Login
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link to="/register">Register</Link>
+            </Button>
+          </div>
+        )}
       </div>
-    </div>
+    </header>
   );
 };
 
-export default DashboardLayout;
+export default Navigation;
