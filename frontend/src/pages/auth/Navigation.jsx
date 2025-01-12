@@ -157,7 +157,7 @@ const Navigation = () => {
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full  bg-black backdrop-blur supports-[backdrop-filter]:bg-black md:px-[6rem] md:py-[.8rem] text-white px-[1rem]">
+    <header className="fixed top-0 z-50 w-full  bg-black backdrop-blur-lg supports-[backdrop-filter]:bg-black/10 md:px-[6rem] md:py-[.8rem] text-white px-[1rem]">
       <div className="container flex h-14 items-center">
         <div className="ml-auto md:w-auto md:flex-none">
           <MobileNav />

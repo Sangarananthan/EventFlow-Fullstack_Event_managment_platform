@@ -26,6 +26,7 @@
     "express-async-handler": "^1.2.0",
     "express-formidable": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.471.0",
     "mongoose": "^8.9.4",
     "nodemon": "^3.1.9"
   }
