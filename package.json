@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A modern, real-time event management application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features user authentication, real-time updates, and a responsive design for managing events efficiently.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend": "cd backend && nodemon index.js",
@@ -15,9 +16,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^9.1.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "eventflow-fullstack_event_managment_platform": "file:",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "express-formidable": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.4",
     "nodemon": "^3.1.9"
-  },
-  "devDependencies": {
-    "concurrently": "^9.1.2"
   }
 }
