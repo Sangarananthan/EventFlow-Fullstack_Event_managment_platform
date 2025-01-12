@@ -1,0 +1,23 @@
+{
+  "name": "eventflow-fullstack_event_managment_platform",
+  "version": "1.0.0",
+  "description": "A modern, real-time event management application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features user authentication, real-time updates, and a responsive design for managing events efficiently.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backend": "cd backend && nodemon index.js",
+    "frontend": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
