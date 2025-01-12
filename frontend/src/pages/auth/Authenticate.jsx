@@ -12,7 +12,7 @@ import { setCreadintials } from "../../redux/features/auth/authSlice";
 export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
+    password: "",
   });
 
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export const Login = () => {
     try {
       const result = await login({
         email: formData.email,
-        name: formData.name,
+        password: formData.password,
       }).unwrap();
 
       dispatch(setCreadintials(result.user));
@@ -96,9 +96,9 @@ export const Login = () => {
 
               <input
                 type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
                 onChange={handleChange}
                 className="w-full px-3 py-3 border  rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
                 required
@@ -115,8 +115,9 @@ export const Login = () => {
 
             {/* Divider */}
             <div className="relative">
+              <hr />
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 text-black ">or</span>
+                <span className=" text-black ">or</span>
               </div>
             </div>
 
@@ -151,7 +152,7 @@ export const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    name: "",
+    password: "",
   });
 
   const dispatch = useDispatch();
@@ -177,7 +178,7 @@ export const Register = () => {
       const result = await register({
         username: formData.username,
         email: formData.email,
-        name: formData.name,
+        password: formData.password,
       }).unwrap();
 
       dispatch(setCreadintials(result.user));
@@ -189,20 +190,22 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-black flex">
+      {/* Right side - Image */}
+      <div className="hidden lg:block lg:w-1/2">
+        <div
+          className="h-full w-full bg-cover bg-center"
+          style={{
+            backgroundImage: `url(https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg?cs=srgb&dl=pexels-bertellifotografia-2608517.jpg&fm=jpg)`,
+          }}
+        ></div>
+      </div>
       {/* Left side - Registration Form */}
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full mx-auto">
-          {/* Logo */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-purple-600">eventbrite</h1>
-          </div>
-
+        <div className="max-w-md w-full mx-auto  bg-neutral-100 p-[2rem] rounded-2xl">
           {/* Registration Form */}
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-purple-900">
-              Create an account
-            </h2>
+            <h2 className="text-3xl font-bold text-black">Create an account</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
@@ -211,7 +214,7 @@ export const Register = () => {
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
+                className="w-full px-3 py-3 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
                 required
               />
 
@@ -221,17 +224,17 @@ export const Register = () => {
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
+                className="w-full px-3 py-3 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
                 required
               />
 
               <input
                 type="text"
-                name="name"
-                placeholder="Full name"
-                value={formData.name}
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
+                className="w-full px-3 py-3 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500"
                 required
               />
 
@@ -248,28 +251,10 @@ export const Register = () => {
               <span className="text-gray-600">Already have an account?</span>{" "}
               <button
                 onClick={() => navigate("/login")}
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-purple-600 hover:text-purple-700 font-medium"
               >
                 Log in
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Right side - Image */}
-      <div className="hidden lg:block lg:w-1/2">
-        <div
-          className="h-full w-full bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/api/placeholder/800/600')`,
-          }}
-        >
-          <div className="h-full w-full bg-black bg-opacity-25 flex items-end p-8">
-            <div className="text-white">
-              <p className="text-lg font-semibold">Trap Yoga Bae</p>
-              <p className="text-sm">Trap Yoga Brooklyn</p>
-              <p className="text-sm">Brooklyn, NY</p>
             </div>
           </div>
         </div>
