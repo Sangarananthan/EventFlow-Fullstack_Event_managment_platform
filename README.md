@@ -1,5 +1,4 @@
-# EventFlow-Fullstack_Event_managment_platform
-# Event Management Platform
+# EventFlow - Event Management Platform
 
 A modern, real-time event management application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features user authentication, real-time updates, and a responsive design for managing events efficiently.
 
@@ -67,11 +66,12 @@ npm run dev
 
 ## 📱 Screenshots
 
-[Add screenshots of your application here]
+[screenshots of application here]
 
 ## 🚧 Project Status
 
-Currently in active development.
+Currently in active development....
+Expected to completed in 30 hours!!
 
 ## 📝 License
 
@@ -79,4 +79,4 @@ MIT License
 
 ## 👥 Contact
 
-[Your Name] - [Your Email/LinkedIn]
+[Sangarananthan] - [sangarsmart16@gmail.com]
